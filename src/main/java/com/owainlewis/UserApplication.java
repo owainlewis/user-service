@@ -1,5 +1,7 @@
 package com.owainlewis;
 
+import com.owainlewis.health.ServiceHealthCheck;
+import com.owainlewis.resources.UserResource;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
@@ -12,18 +14,18 @@ public class UserApplication extends Application<UserConfiguration> {
 
     @Override
     public String getName() {
-        return "User";
+        return "UserService";
     }
 
     @Override
     public void initialize(final Bootstrap<UserConfiguration> bootstrap) {
-        // TODO: application initialization
     }
 
     @Override
     public void run(final UserConfiguration configuration,
                     final Environment environment) {
-        // TODO: implement application
-    }
 
+        environment.healthChecks().register("ServiceCheck", new ServiceHealthCheck());
+        environment.jersey().register(new UserResource());
+    }
 }
