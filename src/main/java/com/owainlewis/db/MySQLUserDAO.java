@@ -15,7 +15,7 @@ public class MySQLUserDAO implements UserDAO {
 
    public  List<User> getUsers() {
         return dbi.withHandle(handle ->
-                handle.createQuery("select * from users")
+                handle.createQuery("SELECT * FROM users ORDER BY id ASC")
                         .map(new UserMapper())
                         .list());
     }
