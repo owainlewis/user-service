@@ -27,7 +27,7 @@ public class UserApplication extends Application<UserConfiguration> {
     public void run(final UserConfiguration configuration,
                     final Environment environment) {
         final DBIFactory factory = new DBIFactory();
-        final DBI jdbi = factory.build(environment, configuration.getDataSourceFactory(), "postgresql");
+        final DBI jdbi = factory.build(environment, configuration.getDataSourceFactory(), "mysql");
         final MySQLUserDAO dao = new MySQLUserDAO(jdbi);
 
         environment.jersey().register(new UserResource(dao));
