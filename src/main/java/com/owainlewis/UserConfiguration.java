@@ -1,10 +1,19 @@
 package com.owainlewis;
 
-import io.dropwizard.Configuration;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.hibernate.validator.constraints.*;
-import javax.validation.constraints.*;
+import io.dropwizard.Configuration;
+import io.dropwizard.db.DataSourceFactory;
 
-public class UserConfiguration extends Configuration {
-    // TODO: implement service configuration
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
+class UserConfiguration extends Configuration {
+    @Valid
+    @NotNull
+    @JsonProperty("database")
+    private DataSourceFactory database = new DataSourceFactory();
+
+    DataSourceFactory getDataSourceFactory() {
+        return database;
+    }
 }

@@ -1,10 +1,12 @@
 package com.owainlewis;
 
-import com.owainlewis.health.ServiceHealthCheck;
+import com.owainlewis.db.MySQLUserDAO;
 import com.owainlewis.resources.UserResource;
 import io.dropwizard.Application;
+import io.dropwizard.jdbi.DBIFactory;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import org.skife.jdbi.v2.DBI;
 
 public class UserApplication extends Application<UserConfiguration> {
 
@@ -24,8 +26,10 @@ public class UserApplication extends Application<UserConfiguration> {
     @Override
     public void run(final UserConfiguration configuration,
                     final Environment environment) {
+        final DBIFactory factory = new DBIFactory();
+        final DBI jdbi = factory.build(environment, configuration.getDataSourceFactory(), "postgresql");
+        final MySQLUserDAO dao = new MySQLUserDAO(jdbi);
 
-        environment.healthChecks().register("ServiceCheck", new ServiceHealthCheck());
-        environment.jersey().register(new UserResource());
+        environment.jersey().register(new UserResource(dao));
     }
 }

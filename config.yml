@@ -2,3 +2,12 @@ logging:
   level: INFO
   loggers:
     com.owainlewis: DEBUG
+
+database:
+  driverClass: com.mysql.jdbc.Driver
+  user: root
+  password:
+  url: jdbc:mysql://localhost:3306/users?autoReconnect=true&useSSL=false
+  properties:
+    charSet: UTF-8
+
