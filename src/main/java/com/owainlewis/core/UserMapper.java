@@ -11,8 +11,8 @@ public class UserMapper implements ResultSetMapper<User> {
     public User map(int i, ResultSet resultSet, StatementContext statementContext) throws SQLException {
         return User.builder()
                 .id(resultSet.getInt("id"))
-                .firstName(resultSet.getString("first_name"))
-                .lastName((resultSet.getString("last_name")))
+                .first(resultSet.getString("first"))
+                .last((resultSet.getString("last")))
                 .email(resultSet.getString("email"))
                 .build();
     }

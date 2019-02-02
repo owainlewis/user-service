@@ -1,6 +1,6 @@
 package com.owainlewis;
 
-import com.owainlewis.db.MySQLUserDAO;
+import com.owainlewis.db.UserDAO;
 import com.owainlewis.resources.UserResource;
 import io.dropwizard.Application;
 import io.dropwizard.jdbi.DBIFactory;
@@ -28,7 +28,7 @@ public class UserApplication extends Application<UserConfiguration> {
                     final Environment environment) {
         final DBIFactory factory = new DBIFactory();
         final DBI jdbi = factory.build(environment, configuration.getDataSourceFactory(), "mysql");
-        final MySQLUserDAO dao = new MySQLUserDAO(jdbi);
+        final UserDAO dao = jdbi.onDemand(UserDAO.class);
 
         environment.jersey().register(new UserResource(dao));
     }

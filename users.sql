@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT,
-    first_name VARCHAR(255) NOT NULL,
-    last_name VARCHAR(255) NOT NULL,
+    first VARCHAR(255) NOT NULL,
+    last VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     PRIMARY KEY (id)
 )  ENGINE=INNODB;

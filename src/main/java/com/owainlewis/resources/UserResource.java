@@ -3,7 +3,7 @@ package com.owainlewis.resources;
 import com.codahale.metrics.annotation.Timed;
 import com.owainlewis.api.UserResponse;
 import com.owainlewis.core.User;
-import com.owainlewis.db.MySQLUserDAO;
+import com.owainlewis.db.UserDAO;
 import org.eclipse.jetty.http.HttpStatus;
 
 import javax.validation.Valid;
@@ -19,9 +19,9 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 public class UserResource {
 
-    private final MySQLUserDAO dao;
+    private final UserDAO dao;
 
-    public UserResource(MySQLUserDAO dao) {
+    public UserResource(UserDAO dao) {
         this.dao = dao;
     }
 
@@ -34,7 +34,9 @@ public class UserResource {
 
     @POST
     @Timed
-    public User createUser(@NotNull @Valid final User user) {
-        return user;
+    public UserResponse<User> createUser(@NotNull @Valid final User user) {
+        User u = new User(user.getFirst(), user.getLast(), user.getEmail());
+        dao.createUser(u);
+        return new UserResponse<User>(HttpStatus.CREATED_201, u);
     }
 }

@@ -12,10 +12,10 @@ public final class User {
     private long id;
 
     @JsonProperty
-    private String firstName;
+    private String first;
 
     @JsonProperty
-    private String lastName;
+    private String last;
 
     @JsonProperty
     private String email;
@@ -24,16 +24,16 @@ public final class User {
 
     }
 
-    public User(long id, String firstName, String lastName, String email) {
+    public User(long id, String first, String last, String email) {
         this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.first = first;
+        this.last = last;
         this.email = email;
     }
 
-    public User(String firstName, String lastName, String email) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public User(String first, String last, String email) {
+        this.first = first;
+        this.last = last;
         this.email = email;
     }
 }
