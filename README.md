@@ -1,13 +1,24 @@
 # User Service
 
-A demo application using DropWizard that works with Java 11.
+A demo application using DropWizard that works with Java 11. This application uses
 
-How to start the User application
+1. MySQL for storage
+2. Flyway for migrations
+
+Getting started
 ---
 
-1. Run `mvn clean install` to build your application
-1. Start application with `java -jar target/user-service-1.0-SNAPSHOT.jar server config.yml`
-1. To check that your application is running enter url `http://localhost:8080`
+Create a database called users and run migrations
+
+```sh
+mvn flyway:migrate
+```
+
+Start the application with
+
+```sh
+./run.sh
+```
 
 Health Check
 ---
