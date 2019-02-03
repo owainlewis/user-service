@@ -1,42 +1,48 @@
 package com.owainlewis.resources;
 
 import com.codahale.metrics.annotation.Timed;
-import com.owainlewis.api.UserResponse;
 import com.owainlewis.core.User;
 import com.owainlewis.db.UserDAO;
-import org.eclipse.jetty.http.HttpStatus;
-
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
+import java.util.Optional;
 
 @Path("/users")
 @Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class UserResource {
 
-    private final UserDAO dao;
+    private final UserDAO userDAO;
 
-    public UserResource(UserDAO dao) {
-        this.dao = dao;
+    public UserResource(UserDAO userDAO) {
+        this.userDAO = userDAO;
     }
 
     @GET
     @Timed
-    public UserResponse<List<User>> index() {
-        List<User> users = dao.getUsers();
-        return new UserResponse<>(HttpStatus.OK_200, users);
+    public List<User> index() {
+        return userDAO.getUsers();
+    }
+
+    @GET
+    @Path("/{id}")
+    public Optional<User> get(@PathParam("id") Integer id){
+        return userDAO.findById(id);
     }
 
     @POST
     @Timed
-    public UserResponse<User> createUser(@NotNull @Valid final User user) {
+    public void create(@NotNull @Valid final User user) {
         User u = new User(user.getFirst(), user.getLast(), user.getEmail());
-        dao.createUser(u);
-        return new UserResponse<User>(HttpStatus.CREATED_201, u);
+        userDAO.createUser(u);
+    }
+
+    @DELETE
+    @Path("/{id}")
+    public void delete(@PathParam("id") Integer id) {
+        userDAO.deleteById(id);
     }
 }
