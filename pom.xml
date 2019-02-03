@@ -149,13 +149,6 @@
                     <user>${database.username}</user>
                     <password>${database.password}</password>
                 </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>com.h2database</groupId>
-                        <artifactId>h2</artifactId>
-                        <version>1.4.191</version>
-                    </dependency>
-                </dependencies>
             </plugin>
         </plugins>
     </build>
