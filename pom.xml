@@ -20,10 +20,10 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <dropwizard.version>1.3.8</dropwizard.version>
-        <database.driver>com.mysql.jdbc.Driver</database.driver>
-        <database.url>jdbc:mysql://localhost:3306/users?useSSL=false</database.url>
+        <database.driver>org.h2.Driver</database.driver>
+        <database.url> jdbc:h2:./users.db</database.url>
         <database.username>root</database.username>
-        <database.password></database.password>
+        <database.password>password</database.password>
         <mainClass>com.owainlewis.UserApplication</mainClass>
     </properties>
 
@@ -52,6 +52,10 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.12</version>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>

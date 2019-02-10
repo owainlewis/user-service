@@ -3,11 +3,10 @@ logging:
   loggers:
     com.owainlewis: DEBUG
 
+# Database settings.
 database:
-  driverClass: com.mysql.jdbc.Driver
+  driverClass: org.h2.Driver
   user: root
-  password:
-  url: jdbc:mysql://localhost:3306/users?autoReconnect=true&useSSL=false
-  properties:
-    charSet: UTF-8
+  password: password
+  url: jdbc:h2:./users.db
 

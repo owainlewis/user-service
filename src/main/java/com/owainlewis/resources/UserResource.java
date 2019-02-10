@@ -14,7 +14,6 @@ import java.util.Optional;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class UserResource {
-
     private final UserDAO userDAO;
 
     public UserResource(UserDAO userDAO) {
@@ -29,20 +28,30 @@ public class UserResource {
 
     @GET
     @Path("/{id}")
-    public Optional<User> get(@PathParam("id") Integer id){
-        return userDAO.findById(id);
+    public User get(@PathParam("id") Long id){
+        return userDAO.findById(id).orElseThrow(NotFoundException::new);
     }
 
     @POST
     @Timed
-    public void create(@NotNull @Valid final User user) {
+    public User create(@NotNull @Valid final User user) {
+        if (emailExists(user.getEmail())) {
+            throw new BadRequestException("A user with that email address already exists");
+        }
+
         User u = new User(user.getFirst(), user.getLast(), user.getEmail());
-        userDAO.createUser(u);
+        long id = userDAO.createUser(u);
+
+        return userDAO.findById(id).orElseThrow(InternalServerErrorException::new);
     }
 
     @DELETE
     @Path("/{id}")
     public void delete(@PathParam("id") Integer id) {
         userDAO.deleteById(id);
+    }
+
+    private boolean emailExists(String email) {
+        return userDAO.findByEmail(email).isPresent();
     }
 }
