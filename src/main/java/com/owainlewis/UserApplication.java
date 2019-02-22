@@ -1,7 +1,10 @@
 package com.owainlewis;
 
+import com.owainlewis.auth.jwt.JWTAuthenticationFilter;
 import com.owainlewis.db.UserDAO;
+import com.owainlewis.health.UserServiceHealthCheck;
 import com.owainlewis.resources.UserResource;
+import com.sun.tools.doclint.Env;
 import io.dropwizard.Application;
 import io.dropwizard.jdbi.DBIFactory;
 import io.dropwizard.setup.Bootstrap;
@@ -24,12 +27,20 @@ public class UserApplication extends Application<UserConfiguration> {
     }
 
     @Override
-    public void run(final UserConfiguration configuration,
-                    final Environment environment) {
+    public void run(final UserConfiguration configuration, final Environment environment) {
+        UserDAO dao = buildDAO(configuration, environment);
+        registerResources(environment, dao);
+    }
+
+    private UserDAO buildDAO(UserConfiguration configuration, Environment environment) {
         final DBIFactory factory = new DBIFactory();
         final DBI jdbi = factory.build(environment, configuration.getDataSourceFactory(), "mysql");
-        final UserDAO dao = jdbi.onDemand(UserDAO.class);
+        return jdbi.onDemand(UserDAO.class);
+    }
 
+    private void registerResources(Environment environment, UserDAO dao) {
+        environment.healthChecks().register("running", new UserServiceHealthCheck());
+        environment.jersey().register(JWTAuthenticationFilter.class);
         environment.jersey().register(new UserResource(dao));
     }
 }

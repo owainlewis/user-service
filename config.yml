@@ -1,7 +1,7 @@
 logging:
   level: INFO
-  loggers:
-    com.owainlewis: DEBUG
+  appenders:
+    - type: console
 
 # Database settings.
 database:
@@ -9,4 +9,6 @@ database:
   user: root
   password: password
   url: jdbc:h2:./users.db
+
+
 
