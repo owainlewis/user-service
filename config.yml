@@ -12,6 +12,4 @@ database:
 
 auth:
   secret: secret
-
-
-
+  
