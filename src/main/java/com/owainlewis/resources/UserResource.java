@@ -1,9 +1,11 @@
 package com.owainlewis.resources;
 
+import com.owainlewis.auth.jwt.AccessTokenPrincipal;
 import com.owainlewis.core.User;
 import com.owainlewis.db.UserDAO;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import io.dropwizard.auth.Auth;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -16,6 +18,8 @@ import java.util.List;
 @Consumes(MediaType.APPLICATION_JSON)
 public class UserResource {
 
+    private final Logger LOG = LoggerFactory.getLogger(UserResource.class);
+
     private final UserDAO userDAO;
 
     public UserResource(UserDAO userDAO) {
@@ -23,7 +27,8 @@ public class UserResource {
     }
 
     @GET
-    public List<User> index() {
+    public List<User> index(@Auth AccessTokenPrincipal tokenPrincipal) {
+        LOG.info("Listing users for user {}", tokenPrincipal.getName());
         return userDAO.getUsers();
     }
 

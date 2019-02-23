@@ -10,5 +10,8 @@ database:
   password: password
   url: jdbc:h2:./users.db
 
+auth:
+  secret: secret
+
 
 

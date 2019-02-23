@@ -24,3 +24,7 @@ Health Check
 ---
 
 To see your applications health enter url `http://localhost:8081/healthcheck`
+
+## Authentication
+
+This service uses JWT bearer token authentication. To get a token send a POST request to /login.
