@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 
-public class JWTAuthenticator implements Authenticator<String, AccessTokenPrincipal> {
+public final class JWTAuthenticator implements Authenticator<String, AccessTokenPrincipal> {
 
     private AuthConfig authConfig;
 
@@ -38,6 +38,5 @@ public class JWTAuthenticator implements Authenticator<String, AccessTokenPrinci
             LOG.error("Failed to authenticate user", exception);
             return Optional.empty();
         }
-
     }
 }

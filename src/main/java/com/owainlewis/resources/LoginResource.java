@@ -19,12 +19,13 @@ public final class LoginResource {
         this.authConfig = authConfig;
     }
 
+    // TODO pull user from database based on username password combination passed to handler
     @POST
     public Response index() {
         try {
             Algorithm algorithm = Algorithm.HMAC256("secret");
             final String jwtToken = JWT.create()
-                    .withIssuer("userService")
+                    .withIssuer("com.owainlewis.userService")
                     .withClaim("sub", "owain@owainlewis.com")
                     .sign(algorithm);
             return Response.status(Response.Status.OK)
