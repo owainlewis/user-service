@@ -37,7 +37,7 @@ public final class UserResource {
 
     @GET
     @Path("/{id}")
-    public User get(@Auth AccessTokenPrincipal tokenPrincipal, @PathParam("id") Long id){
+    public User get(@PathParam("id") Long id){
         return userDAO.findById(id).orElseThrow(NotFoundException::new);
     }
 
