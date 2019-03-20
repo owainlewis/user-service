@@ -1,12 +1,14 @@
 package com.owainlewis.resources;
 
+import com.codahale.metrics.annotation.Timed;
 import com.owainlewis.auth.jwt.AccessTokenPrincipal;
 import com.owainlewis.core.User;
 import com.owainlewis.db.UserDAO;
 import io.dropwizard.auth.Auth;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
+import org.skife.jdbi.v2.sqlobject.customizers.TransactionIsolation;
 
+import javax.annotation.security.PermitAll;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
@@ -16,9 +18,10 @@ import java.util.List;
 @Path("/users")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public class UserResource {
-
-    private final Logger LOG = LoggerFactory.getLogger(UserResource.class);
+@PermitAll
+@Timed
+@Slf4j
+public final class UserResource {
 
     private final UserDAO userDAO;
 
@@ -27,14 +30,14 @@ public class UserResource {
     }
 
     @GET
-    public List<User> index(@Auth AccessTokenPrincipal tokenPrincipal) {
-        LOG.info("Listing users for user {}", tokenPrincipal.getName());
+    public List<User> index() {
+        log.info("Listing users");
         return userDAO.getUsers();
     }
 
     @GET
     @Path("/{id}")
-    public User get(@PathParam("id") Long id){
+    public User get(@Auth AccessTokenPrincipal tokenPrincipal, @PathParam("id") Long id){
         return userDAO.findById(id).orElseThrow(NotFoundException::new);
     }
 

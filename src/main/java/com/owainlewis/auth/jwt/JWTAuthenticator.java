@@ -6,7 +6,6 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
 import com.owainlewis.models.AuthConfig;
-import io.dropwizard.auth.AuthenticationException;
 import io.dropwizard.auth.Authenticator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,13 +23,13 @@ public final class JWTAuthenticator implements Authenticator<String, AccessToken
     }
 
     @Override
-    public Optional<AccessTokenPrincipal> authenticate(String accessToken) throws AuthenticationException {
+    public Optional<AccessTokenPrincipal> authenticate(String accessToken)  {
         LOG.info("Access token {}", accessToken);
 
         try {
             Algorithm algorithm = Algorithm.HMAC256(authConfig.getSecret());
             JWTVerifier verifier = JWT.require(algorithm)
-                    .withIssuer("userService")
+                    .withIssuer("forward")
                     .build();
             DecodedJWT jwt = verifier.verify(accessToken);
             return Optional.of(new AccessTokenPrincipal(jwt));

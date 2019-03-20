@@ -13,6 +13,7 @@ import javax.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public final class LoginResource {
+
     private AuthConfig authConfig;
 
     public LoginResource(AuthConfig authConfig) {
@@ -25,7 +26,7 @@ public final class LoginResource {
         try {
             Algorithm algorithm = Algorithm.HMAC256("secret");
             final String jwtToken = JWT.create()
-                    .withIssuer("com.owainlewis.userService")
+                    .withIssuer("forward")
                     .withClaim("sub", "owain@owainlewis.com")
                     .sign(algorithm);
             return Response.status(Response.Status.OK)

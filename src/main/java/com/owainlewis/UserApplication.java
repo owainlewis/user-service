@@ -1,5 +1,6 @@
 package com.owainlewis;
 
+import com.codahale.metrics.ConsoleReporter;
 import com.owainlewis.auth.jwt.AccessTokenPrincipal;
 import com.owainlewis.auth.jwt.JWTAuthenticator;
 import com.owainlewis.db.UserDAO;
@@ -15,6 +16,8 @@ import io.dropwizard.jdbi.DBIFactory;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import org.skife.jdbi.v2.DBI;
+
+import java.util.concurrent.TimeUnit;
 
 public final class UserApplication extends Application<ApplicationConfiguration> {
 
@@ -34,6 +37,8 @@ public final class UserApplication extends Application<ApplicationConfiguration>
     @Override
     public void run(final ApplicationConfiguration configuration, final Environment environment) {
         registerResources(configuration, environment);
+
+
     }
 
     private UserDAO buildDAO(ApplicationConfiguration configuration, Environment environment) {
@@ -49,6 +54,9 @@ public final class UserApplication extends Application<ApplicationConfiguration>
         environment.healthChecks().register("serviceRunning", new UserServiceHealthCheck());
 
         configureJWTAUth(configuration, environment);
+
+        final ConsoleReporter consoleReporter = ConsoleReporter.forRegistry(environment.metrics()).build();
+        consoleReporter.start(5, TimeUnit.SECONDS);
 
         environment.jersey().register(new UserResource(dao));
         environment.jersey().register(new LoginResource(authConfig));
