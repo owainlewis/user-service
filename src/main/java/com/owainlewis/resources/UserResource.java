@@ -1,12 +1,9 @@
 package com.owainlewis.resources;
 
 import com.codahale.metrics.annotation.Timed;
-import com.owainlewis.auth.jwt.AccessTokenPrincipal;
 import com.owainlewis.core.User;
 import com.owainlewis.db.UserDAO;
-import io.dropwizard.auth.Auth;
 import lombok.extern.slf4j.Slf4j;
-import org.skife.jdbi.v2.sqlobject.customizers.TransactionIsolation;
 
 import javax.annotation.security.PermitAll;
 import javax.validation.Valid;

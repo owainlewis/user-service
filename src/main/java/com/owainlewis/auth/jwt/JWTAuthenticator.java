@@ -7,16 +7,13 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
 import com.owainlewis.models.AuthConfig;
 import io.dropwizard.auth.Authenticator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import lombok.extern.slf4j.Slf4j;
 import java.util.Optional;
 
+@Slf4j
 public final class JWTAuthenticator implements Authenticator<String, AccessTokenPrincipal> {
 
     private AuthConfig authConfig;
-
-    private final Logger LOG = LoggerFactory.getLogger(JWTAuthenticator.class);
 
     public JWTAuthenticator(AuthConfig authConfig) {
         this.authConfig = authConfig;
@@ -24,7 +21,7 @@ public final class JWTAuthenticator implements Authenticator<String, AccessToken
 
     @Override
     public Optional<AccessTokenPrincipal> authenticate(String accessToken)  {
-        LOG.info("Access token {}", accessToken);
+        log.info("Access token {}", accessToken);
 
         try {
             Algorithm algorithm = Algorithm.HMAC256(authConfig.getSecret());
@@ -34,7 +31,7 @@ public final class JWTAuthenticator implements Authenticator<String, AccessToken
             DecodedJWT jwt = verifier.verify(accessToken);
             return Optional.of(new AccessTokenPrincipal(jwt));
         } catch (JWTVerificationException exception){
-            LOG.error("Failed to authenticate user", exception);
+            log.error("Failed to authenticate user", exception);
             return Optional.empty();
         }
     }
