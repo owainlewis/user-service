@@ -20,7 +20,7 @@ import org.skife.jdbi.v2.DBI;
 import java.util.concurrent.TimeUnit;
 
 public final class UserApplication extends Application<ApplicationConfiguration> {
-
+    
     public static void main(final String[] args) throws Exception {
         new UserApplication().run(args);
     }
@@ -37,8 +37,6 @@ public final class UserApplication extends Application<ApplicationConfiguration>
     @Override
     public void run(final ApplicationConfiguration configuration, final Environment environment) {
         registerResources(configuration, environment);
-
-
     }
 
     private UserDAO buildDAO(ApplicationConfiguration configuration, Environment environment) {
